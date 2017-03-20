@@ -41,25 +41,26 @@ public class Handshaker {
 	 * @throws KeyNotFoundException 
 	 */
 	public String handshake(HttpServletRequest request, HttpServletResponse response) throws KeyNotFoundException {
-		String aKey = request.getHeader("X-A-Key");
-		if (aKey != null && !aKey.isEmpty() && !aKey.trim().isEmpty()) {
-			String[] aKeyParts = aKey.split(":");
-			String aKeyVersion = aKeyParts[0];
-			String aKeyData = aKeyParts[1];
-
-			return decryptTicketAsRawKey(aKeyVersion, aKeyData);
-		}
-
 		String sKey = request.getHeader("X-S-Key");
 		if (sKey != null && !sKey.isEmpty() && !sKey.trim().isEmpty()) {
 			String[] sKeyParts = sKey.split(":");
 			String sKeyVersion = sKeyParts[0];
 			String sKeyData = sKeyParts[1];
 
-			String rKey = decryptClientKeyAsRawKey(sKeyVersion, sKeyData);
+			return decryptTicketAsRawKey(sKeyVersion, sKeyData);
+		}
+		
+		
+		String aKey = request.getHeader("X-A-Key");
+		if (aKey != null && !aKey.isEmpty() && !aKey.trim().isEmpty()) {
+			String[] aKeyParts = aKey.split(":");
+			String aKeyVersion = aKeyParts[0];
+			String aKeyData = aKeyParts[1];
 
-			aKey = encryptRawKeyAsTicket(rKey);
-			response.setHeader("X-A-Key", defaultTicketKey + ":" + aKey);
+			String rKey = decryptClientKeyAsRawKey(aKeyVersion, aKeyData);
+
+			sKey = encryptRawKeyAsTicket(rKey);
+			response.setHeader("X-A-Key", defaultTicketKey + ":" + sKey);
 			return rKey;
 		}
 
