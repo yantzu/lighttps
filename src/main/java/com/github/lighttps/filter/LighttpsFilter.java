@@ -252,7 +252,7 @@ public class LighttpsFilter implements Filter {
 				@Override
 				public String getParameter(String name) {
 					String[] values = parameterMap.get(name);
-					if (values.length > 0) {
+					if (values != null && values.length > 0) {
 						return values[0];
 					} else {
 						return null;
