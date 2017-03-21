@@ -60,7 +60,7 @@ public class Handshaker {
 			String rKey = decryptClientKeyAsRawKey(aKeyVersion, aKeyData);
 
 			sKey = encryptRawKeyAsTicket(rKey);
-			response.setHeader("X-A-Key", defaultTicketKey + ":" + sKey);
+			response.setHeader("X-S-Key", defaultTicketKey + ":" + sKey);
 			return rKey;
 		}
 

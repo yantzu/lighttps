@@ -141,7 +141,7 @@ public class LighttpsFilterTests {
 		httpRequest.getHeaders().set("X-A-Key", "V1:OP6EHjAF1P+B+uTOBpgQ4S7FHqJ1j4/ZcvAtO9N9X4FZshRVaYykJ6kLeeZ1fzW5rylDtyPz+DmEBxQSBIFBMUgGKakAWIqXrzqfunhl0cmcBbSxhSGbuzMv9ofcVsZYz31uOcWxflpbLASc/2d8Gtos6sVcC8076Y/9917xUQWB7zAchy8W+6aV/0IYWYY1CHf63BMuWRsQi0URIaBPix41ZKY97HbAkzSbLo1pcwK2RdZEUKb2hym6WeH0YUPBKOCoE+GtAZdsVqL0b7RbutSLlC97vIQFmsQKI8XCTF3Cwe7rft4I1BDTwM3OjAoJp+Id5wjDwfAss9/yHE9kwQ==");
 		HttpResponse httpResponse = httpRequest.execute();
 		
-		Assert.assertEquals("V2:dCDUIiuMbdLz4HvhdbArkeByFbHSPx88koDmIpOiKd8=", httpResponse.getHeaders().getFirstHeaderStringValue("X-A-Key"));
+		Assert.assertEquals("V2:dCDUIiuMbdLz4HvhdbArkeByFbHSPx88koDmIpOiKd8=", httpResponse.getHeaders().getFirstHeaderStringValue("X-S-Key"));
 		
 		Assert.assertEquals("resultX", decryptData(toByte(httpResponse.getContent())));
 	}
