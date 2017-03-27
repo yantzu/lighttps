@@ -138,9 +138,6 @@ public class LighttpsFilter implements Filter {
 			return;
 		}
 		
-		final Cipher decryptCipher = getDecryptCipher(rKey);
-		final Cipher encryptCipher = getEncryptCipher(rKey);
-		
 		HttpServletRequest httpRequestWrapper = httpRequest;
 		HttpServletResponse httpResonpseWrapper = httpResonpse;
 		
@@ -148,15 +145,15 @@ public class LighttpsFilter implements Filter {
 		if ("POST".equalsIgnoreCase(httpRequest.getMethod()) || "PUT".equalsIgnoreCase(httpRequest.getMethod())
 				|| "PATCH".equalsIgnoreCase(httpRequest.getMethod())) {
 
-			httpRequestWrapper = wrapInputStream(httpRequestWrapper, decryptCipher);
+			httpRequestWrapper = wrapInputStream(httpRequestWrapper, getDecryptCipher(rKey));
 		}
 		
 		String ef = httpRequest.getParameter("ef");
 		if (ef != null && !ef.isEmpty()) {
-			httpRequestWrapper = wrapFile(httpRequestWrapper, ef, decryptCipher);
+			httpRequestWrapper = wrapFile(httpRequestWrapper, ef, getDecryptCipher(rKey));
 		}
 		
-		httpResonpseWrapper = wrapOutputStream(httpResonpseWrapper, encryptCipher);
+		httpResonpseWrapper = wrapOutputStream(httpResonpseWrapper, getEncryptCipher(rKey));
 		
 		chain.doFilter(httpRequestWrapper, httpResonpseWrapper);
 		
@@ -340,6 +337,9 @@ public class LighttpsFilter implements Filter {
 	
 	
 	public static Map<String, String[]> parseQuery(String query) throws UnsupportedEncodingException {
+		if (query == null || query.isEmpty()) {
+			return new HashMap<String, String[]>(0);
+		}
 		Map<String, List<String>> parameterMap = new LinkedHashMap<String, List<String>>();
 		String[] parameterPairs = query.split("&");
 		for (String parameterPair : parameterPairs) {
