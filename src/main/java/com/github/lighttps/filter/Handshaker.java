@@ -39,8 +39,9 @@ public class Handshaker {
 	 * @param response
 	 * @return Data Key
 	 * @throws KeyNotFoundException 
+	 * @throws InvalidKeyException 
 	 */
-	public String handshake(HttpServletRequest request, HttpServletResponse response) throws KeyNotFoundException {
+	public String handshake(HttpServletRequest request, HttpServletResponse response) throws KeyNotFoundException, InvalidKeyException {
 		String sKey = request.getHeader("X-S-Key");
 		if (sKey != null && !sKey.isEmpty() && !sKey.trim().isEmpty()) {
 			String[] sKeyParts = sKey.split(":");
@@ -68,7 +69,7 @@ public class Handshaker {
 	}
 	
 	
-	private String decryptClientKeyAsRawKey(String certificateVersion, String clientKey) throws KeyNotFoundException {
+	private String decryptClientKeyAsRawKey(String certificateVersion, String clientKey) throws KeyNotFoundException, InvalidKeyException {
 		PrivateKey certificateKey = certificateKeys.get(certificateVersion);
 		if (certificateKey == null) {
 			throw new KeyNotFoundException("Unknown CertificateKey: " + certificateVersion);
@@ -79,7 +80,7 @@ public class Handshaker {
 			cipher.init(Cipher.DECRYPT_MODE, certificateKey);
 			return new String(cipher.doFinal(Base64.decodeBase64(clientKey)), "UTF-8");
 		} catch (GeneralSecurityException securityExcepiton) {
-			throw new IllegalStateException(securityExcepiton);
+			throw new InvalidKeyException(securityExcepiton);
 		} catch (UnsupportedEncodingException encodingException) {
 			throw new IllegalStateException(encodingException);
 		}
@@ -98,7 +99,7 @@ public class Handshaker {
 		}
 	}
 	
-	private String decryptTicketAsRawKey(String ticketVersion, String encryptTicketData) throws KeyNotFoundException {
+	private String decryptTicketAsRawKey(String ticketVersion, String encryptTicketData) throws KeyNotFoundException, InvalidKeyException {
 		SecretKeySpec ticketKey = ticketKeys.get(ticketVersion);
 		if (ticketKey == null) {
 			throw new KeyNotFoundException("Unknown TicketKey: "
@@ -110,7 +111,7 @@ public class Handshaker {
 			cipher.init(Cipher.DECRYPT_MODE, ticketKey);
 			return new String(cipher.doFinal(Base64.decodeBase64(encryptTicketData)), "UTF-8");
 		} catch (GeneralSecurityException securityExcepiton) {
-			throw new IllegalStateException(securityExcepiton);
+			throw new InvalidKeyException(securityExcepiton);
 		} catch (UnsupportedEncodingException encodingException) {
 			throw new IllegalStateException(encodingException);
 		}

@@ -103,7 +103,7 @@ public class LighttpsFilterTests {
 		try {
 			httpRequest.execute();
 		} catch (HttpResponseException responseException) {
-			Assert.assertEquals(403, responseException.getStatusCode());
+			Assert.assertEquals(495, responseException.getStatusCode());
 		}
 	}
 	
@@ -161,4 +161,23 @@ public class LighttpsFilterTests {
 
 		return byteArrayOutputStream.toByteArray();
 	}
+	
+//	@Test
+//	public void testEncry() throws IOException {
+//		FileInputStream fis = new FileInputStream("D:\\doc\\UXIP\\压力测试\\batch_new.gz");
+//		byte[] orignal = IOUtils.toByteArray(fis);
+//		
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		IOUtils.write("--------------------------5b258d945167c31e\r\n", baos);
+//		IOUtils.write("Content-Disposition: form-data; name=\"data\"; filename=\"batch_new.gz\"\r\n", baos);
+//		IOUtils.write("Content-Type: application/octet-stream\r\n\r\n", baos);
+//		IOUtils.write(orignal, baos);
+//		IOUtils.write("\r\n--------------------------5b258d945167c31e--\r\n\r\n", baos);
+//		
+//		byte[] result = encryptData(baos.toByteArray());
+//		
+//		FileOutputStream fos = new FileOutputStream("D:\\doc\\UXIP\\压力测试\\lighttps\\batch_new.gz");
+//		IOUtils.write(result, fos);
+//
+//	}
 }
