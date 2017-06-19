@@ -370,7 +370,7 @@ public class LighttpsFilter implements Filter {
                 parameterMap.put(key, new LinkedList<String>());
             }
             String value = equalIndex > 0 && parameterPair.length() > equalIndex + 1 ? URLDecoder.decode(
-                    parameterPair.substring(equalIndex + 1), "UTF-8") : null;
+                    parameterPair.substring(equalIndex + 1), "UTF-8") : "";
             parameterMap.get(key).add(value);
         }
 
