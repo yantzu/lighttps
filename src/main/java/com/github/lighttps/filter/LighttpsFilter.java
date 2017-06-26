@@ -248,7 +248,7 @@ public class LighttpsFilter implements Filter {
             LOG.debug("Original request URI: {}", uriString);
             
             final URI uri = new URI(uriString);
-            final Map<String, String[]> parameterMap = parseQuery(uri.getQuery());
+            final Map<String, String[]> parameterMap = parseQuery(uri.getRawQuery());
             
             httpRequestWrapper = new HttpServletRequestWrapper(httpRequestWrapper) {
                 @Override
