@@ -173,8 +173,11 @@ public class LighttpsFilter implements Filter {
         
         chain.doFilter(httpRequestWrapper, httpResonpseWrapper);
 
-        //close OutputStream to force flush data
-        httpResonpseWrapper.getOutputStream().close();
+        if (httpResonpseWrapper.getStatus() != 204 && httpResonpseWrapper.getStatus() != 205
+                && httpResonpseWrapper.getStatus() != 304) {
+            //close OutputStream to force flush data
+            httpResonpseWrapper.getOutputStream().close();
+        }
         
         return;
     }
