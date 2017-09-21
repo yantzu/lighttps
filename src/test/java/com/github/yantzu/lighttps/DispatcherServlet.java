@@ -1,4 +1,4 @@
-package com.github.lighttps;
+package com.github.yantzu.lighttps;
 
 import java.io.IOException;
 import java.io.InputStream;

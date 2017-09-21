@@ -1,4 +1,4 @@
-package com.github.lighttps.filter;
+package com.github.yantzu.lighttps.filter;
 
 public class KeyNotFoundException extends Exception {
 
