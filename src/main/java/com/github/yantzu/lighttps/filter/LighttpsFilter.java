@@ -399,7 +399,7 @@ public class LighttpsFilter implements Filter {
 
 	private class LighttpsServletResponse extends HttpServletResponseWrapper {
 		private ServletOutputStream servletOutputStream;
-		private int httpStatus;
+		private int httpStatus = SC_OK;
 
 		private LighttpsServletResponse(HttpServletResponse response, ServletOutputStream servletOutputStream) {
 			super(response);
@@ -438,6 +438,12 @@ public class LighttpsFilter implements Filter {
 
 		public int getStatus() {
 			return httpStatus;
+		}
+
+		@Override
+		public void reset() {
+			super.reset();
+			this.httpStatus = SC_OK;
 		}
 	}
 }
