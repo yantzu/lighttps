@@ -17,30 +17,38 @@ public class DispatcherServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		if ("/errorUrl".equals(req.getRequestURI())) {
+			resp.sendError(400);
+		}
+
 		Assert.assertEquals("/targetUrl", req.getRequestURI());
 		Assert.assertEquals("targetP=targetV", req.getQueryString());
 		Assert.assertEquals("targetV", req.getParameter("targetP"));
 		Assert.assertEquals(1, req.getParameterMap().size());
-		
+
 		resp.getOutputStream().write("resultX".getBytes());
 		resp.getOutputStream().flush();
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		if ("/errorUrl".equals(req.getRequestURI())) {
+			resp.sendError(400);
+			return;
+		}
+
 		Assert.assertEquals("/targetUrl", req.getRequestURI());
 		Assert.assertEquals("targetP=targetV", req.getQueryString());
 		Assert.assertEquals("targetV", req.getParameter("targetP"));
 		Assert.assertEquals(1, req.getParameterMap().size());
-		
+
 		String content = toString(req.getInputStream());
 		Assert.assertEquals("contentX", content);
-		
-		
+
 		resp.getOutputStream().write("resultX".getBytes());
 		resp.getOutputStream().flush();
 	}
-	
+
 	private String toString(InputStream inputStream) {
 		Scanner scanner = new Scanner(inputStream);
 		scanner.useDelimiter("\\A");
